@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="e70c96f1dcb54c43be9666f9756565d6" Name="Diagram1" ZoomLevel="89">
+        <EntityTypeShape EntityType="MainDevEnvModel.Category" Width="1.5" PointX="0.75" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="MainDevEnvModel.CompanyProfile" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MainDevEnvModel.CompanyPromotion" Width="1.5" PointX="3" PointY="11.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="MainDevEnvModel.CompanySubscribedCategory" Width="1.5" PointX="3" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="MainDevEnvModel.CompanyUserType" Width="1.5" PointX="1.5" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="MainDevEnvModel.User" Width="1.5" PointX="3.75" PointY="7.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="MainDevEnvModel.UserAreaCode" Width="1.5" PointX="7.75" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="MainDevEnvModel.UserCategory" Width="1.5" PointX="6" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="MainDevEnvModel.UserType" Width="1.5" PointX="8.75" PointY="1.5" IsExpanded="true" />
+        <AssociationConnector Association="MainDevEnvModel.FK_CompanySubscribedCategories_Categories" ManuallyRouted="false" />
+        <AssociationConnector Association="MainDevEnvModel.FK_UserCategories_Categories" ManuallyRouted="false" />
+        <AssociationConnector Association="MainDevEnvModel.FK_CompanyPromotion_CompanyProfile" ManuallyRouted="false" />
+        <AssociationConnector Association="MainDevEnvModel.FK_CompanySubscribedCategories_CompanyProfile" ManuallyRouted="false" />
+        <AssociationConnector Association="MainDevEnvModel.FK_User_CompanyUserType" ManuallyRouted="false" />
+        <AssociationConnector Association="MainDevEnvModel.FK_UserCategories_User" ManuallyRouted="false" />
+        <AssociationConnector Association="MainDevEnvModel.FK_User_UserType" />
+        <AssociationConnector Association="MainDevEnvModel.FK_CompanyProfile_Categories" />
+        <EntityTypeShape EntityType="MainDevEnvModel.CompanyBranchDetail" Width="1.5" PointX="3" PointY="0.75" />
+        <EntityTypeShape EntityType="MainDevEnvModel.CompanyUserDetail" Width="1.5" PointX="9" PointY="4.875" />
+        <AssociationConnector Association="MainDevEnvModel.FK_CompanyBranchDetail_CompanyProfile" />
+        <AssociationConnector Association="MainDevEnvModel.FK_CompanyUserDetail_CompanyBranchDetail" />
+        <AssociationConnector Association="MainDevEnvModel.FK_CompanyUserDetail_CompanyProfile" />
+        <AssociationConnector Association="MainDevEnvModel.FK_CompanyUserDetail_User" />
+        <AssociationConnector Association="MainDevEnvModel.FK_UserAreaCode_User" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

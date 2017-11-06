@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.15
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecurityManager.Service", "SecurityManager.Service\SecurityManager.Service.csproj", "{B5B6896C-B8FF-4937-AE26-C809DDD72120}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecurityManager.Client", "SecurityManager.Client\SecurityManager.Client.csproj", "{F996EE04-7073-4D9F-9E86-74EE5B655C76}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B5B6896C-B8FF-4937-AE26-C809DDD72120}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5B6896C-B8FF-4937-AE26-C809DDD72120}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5B6896C-B8FF-4937-AE26-C809DDD72120}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5B6896C-B8FF-4937-AE26-C809DDD72120}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F996EE04-7073-4D9F-9E86-74EE5B655C76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F996EE04-7073-4D9F-9E86-74EE5B655C76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F996EE04-7073-4D9F-9E86-74EE5B655C76}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F996EE04-7073-4D9F-9E86-74EE5B655C76}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {16923D3A-E09A-4A21-A6B9-F2F5BDC8E588}
+	EndGlobalSection
+EndGlobal

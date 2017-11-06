@@ -1,0 +1,44 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.15
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecurityAccess.Service", "SecurityAccess.Service\SecurityAccess.Service.csproj", "{D451DA7B-6091-4753-A6B4-60463C1140C6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecurityAccess.Tests", "SecurityAccess.Tests\SecurityAccess.Tests.csproj", "{7DBCC3B9-84D7-4A65-8C92-8578DD8F02EB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecurityAccess.Client", "SecurityAccess.Client\SecurityAccess.Client.csproj", "{C9F4345D-2FDC-42DC-A9A6-D0A6529B2FEE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecurityAccess.Contracts", "SecurityAccess.Contracts\SecurityAccess.Contracts.csproj", "{B027139C-D6BC-4CE5-AE78-22EC1992322D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D451DA7B-6091-4753-A6B4-60463C1140C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D451DA7B-6091-4753-A6B4-60463C1140C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D451DA7B-6091-4753-A6B4-60463C1140C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D451DA7B-6091-4753-A6B4-60463C1140C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7DBCC3B9-84D7-4A65-8C92-8578DD8F02EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7DBCC3B9-84D7-4A65-8C92-8578DD8F02EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7DBCC3B9-84D7-4A65-8C92-8578DD8F02EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7DBCC3B9-84D7-4A65-8C92-8578DD8F02EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C9F4345D-2FDC-42DC-A9A6-D0A6529B2FEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9F4345D-2FDC-42DC-A9A6-D0A6529B2FEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9F4345D-2FDC-42DC-A9A6-D0A6529B2FEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9F4345D-2FDC-42DC-A9A6-D0A6529B2FEE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B027139C-D6BC-4CE5-AE78-22EC1992322D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B027139C-D6BC-4CE5-AE78-22EC1992322D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B027139C-D6BC-4CE5-AE78-22EC1992322D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B027139C-D6BC-4CE5-AE78-22EC1992322D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {19B7B38D-CF0C-4182-B41E-C347008D9D7E}
+		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.0\lib\NET35
+	EndGlobalSection
+EndGlobal

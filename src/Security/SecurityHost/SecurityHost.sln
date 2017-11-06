@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.15
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecurityHost", "SecurityHost.csproj", "{3F60BFD1-0AAC-4791-B0C5-F3089B2157C5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3F60BFD1-0AAC-4791-B0C5-F3089B2157C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F60BFD1-0AAC-4791-B0C5-F3089B2157C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F60BFD1-0AAC-4791-B0C5-F3089B2157C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F60BFD1-0AAC-4791-B0C5-F3089B2157C5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2CF3998C-2A6F-4574-9054-399B7ED4DD97}
+	EndGlobalSection
+EndGlobal

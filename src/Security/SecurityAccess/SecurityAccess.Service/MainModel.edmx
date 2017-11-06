@@ -1,0 +1,796 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="MainDevEnvModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Categories">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CompanyBranchDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CompanyId" Type="int" />
+          <Property Name="Description" Type="varchar" MaxLength="100" />
+          <Property Name="FirstLineOfAddress" Type="varchar" MaxLength="200" />
+          <Property Name="Phone" Type="varchar" MaxLength="100" />
+          <Property Name="Email" Type="varchar" MaxLength="100" />
+          <Property Name="AreaCode" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="CompanyProfile">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="1000" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="1000" Nullable="false" />
+          <Property Name="CategoryTypeId" Type="int" />
+        </EntityType>
+        <EntityType Name="CompanyPromotion">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CompanyId" Type="int" Nullable="false" />
+          <Property Name="PromotionText" Type="nvarchar" MaxLength="1000" Nullable="false" />
+          <Property Name="AreaCode" Type="int" Nullable="false" />
+          <Property Name="IsAreaCodeWildCard" Type="bit" />
+          <Property Name="PromotionExpiryDate" Type="datetime" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="DateCreated" Type="datetime" />
+          <Property Name="DateModified" Type="datetime" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="CompanySubscribedCategories">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CompanyId" Type="int" Nullable="false" />
+          <Property Name="CategoryId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CompanyUserDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" />
+          <Property Name="CompanyId" Type="int" />
+          <Property Name="IsBranchWildCard" Type="bit" />
+          <Property Name="CompanyBranchId" Type="int" />
+        </EntityType>
+        <EntityType Name="CompanyUserType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="100" />
+          <Property Name="LastName" Type="varchar" MaxLength="100" />
+          <Property Name="EmailAddress" Type="nvarchar" MaxLength="100" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserTypeId" Type="int" Nullable="false" />
+          <Property Name="CompanyUserTypeId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserAreaCode">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="AreaCode" Type="int" />
+          <Property Name="AreaAdress" Type="nvarchar" MaxLength="1000" />
+        </EntityType>
+        <EntityType Name="UserCategories">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="CategoryId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_CompanyBranchDetail_CompanyProfile">
+          <End Role="CompanyProfile" Type="Self.CompanyProfile" Multiplicity="0..1" />
+          <End Role="CompanyBranchDetail" Type="Self.CompanyBranchDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CompanyProfile">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CompanyBranchDetail">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CompanyProfile_Categories">
+          <End Role="Categories" Type="Self.Categories" Multiplicity="0..1" />
+          <End Role="CompanyProfile" Type="Self.CompanyProfile" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categories">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CompanyProfile">
+              <PropertyRef Name="CategoryTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CompanySubscribedCategories_Categories">
+          <End Role="Categories" Type="Self.Categories" Multiplicity="1" />
+          <End Role="CompanySubscribedCategories" Type="Self.CompanySubscribedCategories" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categories">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CompanySubscribedCategories">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CompanySubscribedCategories_CompanyProfile">
+          <End Role="CompanyProfile" Type="Self.CompanyProfile" Multiplicity="1" />
+          <End Role="CompanySubscribedCategories" Type="Self.CompanySubscribedCategories" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CompanyProfile">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CompanySubscribedCategories">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CompanyUserDetail_CompanyBranchDetail">
+          <End Role="CompanyBranchDetail" Type="Self.CompanyBranchDetail" Multiplicity="0..1" />
+          <End Role="CompanyUserDetail" Type="Self.CompanyUserDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CompanyBranchDetail">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CompanyUserDetail">
+              <PropertyRef Name="CompanyBranchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CompanyUserDetail_CompanyProfile">
+          <End Role="CompanyProfile" Type="Self.CompanyProfile" Multiplicity="0..1" />
+          <End Role="CompanyUserDetail" Type="Self.CompanyUserDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CompanyProfile">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CompanyUserDetail">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CompanyUserDetail_User">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="CompanyUserDetail" Type="Self.CompanyUserDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="CompanyUserDetail">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_CompanyUserType">
+          <End Role="CompanyUserType" Type="Self.CompanyUserType" Multiplicity="1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CompanyUserType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="CompanyUserTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_UserType">
+          <End Role="UserType" Type="Self.UserType" Multiplicity="1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="UserTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserAreaCode_User1">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="UserAreaCode" Type="Self.UserAreaCode" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="UserAreaCode">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserCategories_Categories">
+          <End Role="Categories" Type="Self.Categories" Multiplicity="1" />
+          <End Role="UserCategories" Type="Self.UserCategories" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categories">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserCategories">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MainDevEnvModelStoreContainer">
+          <EntitySet Name="Categories" EntityType="Self.Categories" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CompanyBranchDetail" EntityType="Self.CompanyBranchDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CompanyProfile" EntityType="Self.CompanyProfile" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CompanyPromotion" EntityType="Self.CompanyPromotion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CompanySubscribedCategories" EntityType="Self.CompanySubscribedCategories" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CompanyUserDetail" EntityType="Self.CompanyUserDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CompanyUserType" EntityType="Self.CompanyUserType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserAreaCode" EntityType="Self.UserAreaCode" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserCategories" EntityType="Self.UserCategories" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserType" EntityType="Self.UserType" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_CompanyBranchDetail_CompanyProfile" Association="Self.FK_CompanyBranchDetail_CompanyProfile">
+            <End Role="CompanyProfile" EntitySet="CompanyProfile" />
+            <End Role="CompanyBranchDetail" EntitySet="CompanyBranchDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CompanyProfile_Categories" Association="Self.FK_CompanyProfile_Categories">
+            <End Role="Categories" EntitySet="Categories" />
+            <End Role="CompanyProfile" EntitySet="CompanyProfile" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CompanySubscribedCategories_Categories" Association="Self.FK_CompanySubscribedCategories_Categories">
+            <End Role="Categories" EntitySet="Categories" />
+            <End Role="CompanySubscribedCategories" EntitySet="CompanySubscribedCategories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CompanySubscribedCategories_CompanyProfile" Association="Self.FK_CompanySubscribedCategories_CompanyProfile">
+            <End Role="CompanyProfile" EntitySet="CompanyProfile" />
+            <End Role="CompanySubscribedCategories" EntitySet="CompanySubscribedCategories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CompanyUserDetail_CompanyBranchDetail" Association="Self.FK_CompanyUserDetail_CompanyBranchDetail">
+            <End Role="CompanyBranchDetail" EntitySet="CompanyBranchDetail" />
+            <End Role="CompanyUserDetail" EntitySet="CompanyUserDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CompanyUserDetail_CompanyProfile" Association="Self.FK_CompanyUserDetail_CompanyProfile">
+            <End Role="CompanyProfile" EntitySet="CompanyProfile" />
+            <End Role="CompanyUserDetail" EntitySet="CompanyUserDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CompanyUserDetail_User" Association="Self.FK_CompanyUserDetail_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="CompanyUserDetail" EntitySet="CompanyUserDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_CompanyUserType" Association="Self.FK_User_CompanyUserType">
+            <End Role="CompanyUserType" EntitySet="CompanyUserType" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_UserType" Association="Self.FK_User_UserType">
+            <End Role="UserType" EntitySet="UserType" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserAreaCode_User1" Association="Self.FK_UserAreaCode_User1">
+            <End Role="User" EntitySet="User" />
+            <End Role="UserAreaCode" EntitySet="UserAreaCode" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserCategories_Categories" Association="Self.FK_UserCategories_Categories">
+            <End Role="Categories" EntitySet="Categories" />
+            <End Role="UserCategories" EntitySet="UserCategories" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MainDevEnvModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="CompanySubscribedCategories" Relationship="Self.FK_CompanySubscribedCategories_Categories" FromRole="Categories" ToRole="CompanySubscribedCategories" />
+          <NavigationProperty Name="UserCategories" Relationship="Self.FK_UserCategories_Categories" FromRole="Categories" ToRole="UserCategories" />
+          <NavigationProperty Name="CompanyProfiles" Relationship="MainDevEnvModel.FK_CompanyProfile_Categories" FromRole="Category" ToRole="CompanyProfile" />
+        </EntityType>
+        <EntityType Name="CompanyProfile">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="CompanyPromotions" Relationship="Self.FK_CompanyPromotion_CompanyProfile" FromRole="CompanyProfile" ToRole="CompanyPromotion" />
+          <NavigationProperty Name="CompanySubscribedCategories" Relationship="Self.FK_CompanySubscribedCategories_CompanyProfile" FromRole="CompanyProfile" ToRole="CompanySubscribedCategories" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="CategoryTypeId" Type="Int32" />
+          <NavigationProperty Name="Category" Relationship="MainDevEnvModel.FK_CompanyProfile_Categories" FromRole="CompanyProfile" ToRole="Category" />
+          <NavigationProperty Name="CompanyBranchDetails" Relationship="MainDevEnvModel.FK_CompanyBranchDetail_CompanyProfile" FromRole="CompanyProfile" ToRole="CompanyBranchDetail" />
+          <NavigationProperty Name="CompanyUserDetails" Relationship="MainDevEnvModel.FK_CompanyUserDetail_CompanyProfile" FromRole="CompanyProfile" ToRole="CompanyUserDetail" />
+        </EntityType>
+        <EntityType Name="CompanyPromotion">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CompanyId" Type="Int32" Nullable="false" />
+          <Property Name="PromotionText" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="AreaCode" Type="Int32" Nullable="false" />
+          <Property Name="IsAreaCodeWildCard" Type="Boolean" />
+          <Property Name="PromotionExpiryDate" Type="DateTime" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="DateCreated" Type="DateTime" Precision="3" />
+          <Property Name="DateModified" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CompanyProfile" Relationship="Self.FK_CompanyPromotion_CompanyProfile" FromRole="CompanyPromotion" ToRole="CompanyProfile" />
+        </EntityType>
+        <EntityType Name="CompanySubscribedCategory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CompanyId" Type="Int32" Nullable="false" />
+          <Property Name="CategoryId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Category" Relationship="Self.FK_CompanySubscribedCategories_Categories" FromRole="CompanySubscribedCategories" ToRole="Categories" />
+          <NavigationProperty Name="CompanyProfile" Relationship="Self.FK_CompanySubscribedCategories_CompanyProfile" FromRole="CompanySubscribedCategories" ToRole="CompanyProfile" />
+        </EntityType>
+        <EntityType Name="CompanyUserType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_User_CompanyUserType" FromRole="CompanyUserType" ToRole="User" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="EmailAddress" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserTypeId" Type="Int32" Nullable="false" />
+          <Property Name="CompanyUserTypeId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="CompanyUserType" Relationship="Self.FK_User_CompanyUserType" FromRole="User" ToRole="CompanyUserType" />
+          <NavigationProperty Name="UserCategories" Relationship="Self.FK_UserCategories_User" FromRole="User" ToRole="UserCategories" />
+          <NavigationProperty Name="UserType" Relationship="MainDevEnvModel.FK_User_UserType" FromRole="User" ToRole="UserType" />
+          <NavigationProperty Name="CompanyUserDetails" Relationship="MainDevEnvModel.FK_CompanyUserDetail_User" FromRole="User" ToRole="CompanyUserDetail" />
+          <NavigationProperty Name="UserAreaCodes" Relationship="MainDevEnvModel.FK_UserAreaCode_User" FromRole="User" ToRole="UserAreaCode" />
+        </EntityType>
+        <EntityType Name="UserAreaCode">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="AreaCode" Type="Int32" />
+          <Property Name="AreaAdress" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="User" Relationship="MainDevEnvModel.FK_UserAreaCode_User" FromRole="UserAreaCode" ToRole="User" />
+        </EntityType>
+        <EntityType Name="UserCategory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="CategoryId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Category" Relationship="Self.FK_UserCategories_Categories" FromRole="UserCategories" ToRole="Categories" />
+          <NavigationProperty Name="User" Relationship="Self.FK_UserCategories_User" FromRole="UserCategories" ToRole="User" />
+        </EntityType>
+        <EntityType Name="UserType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Users" Relationship="MainDevEnvModel.FK_User_UserType" FromRole="UserType" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_CompanySubscribedCategories_Categories">
+          <End Role="Categories" Type="Self.Category" Multiplicity="1" />
+          <End Role="CompanySubscribedCategories" Type="Self.CompanySubscribedCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categories">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CompanySubscribedCategories">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserCategories_Categories">
+          <End Role="Categories" Type="Self.Category" Multiplicity="1" />
+          <End Role="UserCategories" Type="Self.UserCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categories">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserCategories">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CompanyPromotion_CompanyProfile">
+          <End Role="CompanyProfile" Type="Self.CompanyProfile" Multiplicity="1" />
+          <End Role="CompanyPromotion" Type="Self.CompanyPromotion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CompanyProfile">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CompanyPromotion">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CompanySubscribedCategories_CompanyProfile">
+          <End Role="CompanyProfile" Type="Self.CompanyProfile" Multiplicity="1" />
+          <End Role="CompanySubscribedCategories" Type="Self.CompanySubscribedCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CompanyProfile">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CompanySubscribedCategories">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_CompanyUserType">
+          <End Role="CompanyUserType" Type="Self.CompanyUserType" Multiplicity="1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CompanyUserType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="CompanyUserTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserCategories_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="UserCategories" Type="Self.UserCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="UserCategories">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MainDevEnvEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Categories" EntityType="Self.Category" />
+          <EntitySet Name="CompanyProfiles" EntityType="Self.CompanyProfile" />
+          <EntitySet Name="CompanyPromotions" EntityType="Self.CompanyPromotion" />
+          <EntitySet Name="CompanySubscribedCategories" EntityType="Self.CompanySubscribedCategory" />
+          <EntitySet Name="CompanyUserTypes" EntityType="Self.CompanyUserType" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <EntitySet Name="UserAreaCodes" EntityType="Self.UserAreaCode" />
+          <EntitySet Name="UserCategories" EntityType="Self.UserCategory" />
+          <EntitySet Name="UserTypes" EntityType="Self.UserType" />
+          <AssociationSet Name="FK_CompanySubscribedCategories_Categories" Association="Self.FK_CompanySubscribedCategories_Categories">
+            <End Role="Categories" EntitySet="Categories" />
+            <End Role="CompanySubscribedCategories" EntitySet="CompanySubscribedCategories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserCategories_Categories" Association="Self.FK_UserCategories_Categories">
+            <End Role="Categories" EntitySet="Categories" />
+            <End Role="UserCategories" EntitySet="UserCategories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CompanyPromotion_CompanyProfile" Association="Self.FK_CompanyPromotion_CompanyProfile">
+            <End Role="CompanyProfile" EntitySet="CompanyProfiles" />
+            <End Role="CompanyPromotion" EntitySet="CompanyPromotions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CompanySubscribedCategories_CompanyProfile" Association="Self.FK_CompanySubscribedCategories_CompanyProfile">
+            <End Role="CompanyProfile" EntitySet="CompanyProfiles" />
+            <End Role="CompanySubscribedCategories" EntitySet="CompanySubscribedCategories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_CompanyUserType" Association="Self.FK_User_CompanyUserType">
+            <End Role="CompanyUserType" EntitySet="CompanyUserTypes" />
+            <End Role="User" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserCategories_User" Association="Self.FK_UserCategories_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="UserCategories" EntitySet="UserCategories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_UserType" Association="MainDevEnvModel.FK_User_UserType">
+            <End Role="UserType" EntitySet="UserTypes" />
+            <End Role="User" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CompanyProfile_Categories" Association="MainDevEnvModel.FK_CompanyProfile_Categories">
+            <End Role="Category" EntitySet="Categories" />
+            <End Role="CompanyProfile" EntitySet="CompanyProfiles" />
+          </AssociationSet>
+          <EntitySet Name="CompanyBranchDetails" EntityType="MainDevEnvModel.CompanyBranchDetail" />
+          <EntitySet Name="CompanyUserDetails" EntityType="MainDevEnvModel.CompanyUserDetail" />
+          <AssociationSet Name="FK_CompanyBranchDetail_CompanyProfile" Association="MainDevEnvModel.FK_CompanyBranchDetail_CompanyProfile">
+            <End Role="CompanyProfile" EntitySet="CompanyProfiles" />
+            <End Role="CompanyBranchDetail" EntitySet="CompanyBranchDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CompanyUserDetail_CompanyBranchDetail" Association="MainDevEnvModel.FK_CompanyUserDetail_CompanyBranchDetail">
+            <End Role="CompanyBranchDetail" EntitySet="CompanyBranchDetails" />
+            <End Role="CompanyUserDetail" EntitySet="CompanyUserDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CompanyUserDetail_CompanyProfile" Association="MainDevEnvModel.FK_CompanyUserDetail_CompanyProfile">
+            <End Role="CompanyProfile" EntitySet="CompanyProfiles" />
+            <End Role="CompanyUserDetail" EntitySet="CompanyUserDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CompanyUserDetail_User" Association="MainDevEnvModel.FK_CompanyUserDetail_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="CompanyUserDetail" EntitySet="CompanyUserDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserAreaCode_User" Association="MainDevEnvModel.FK_UserAreaCode_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="UserAreaCode" EntitySet="UserAreaCodes" />
+          </AssociationSet>
+        </EntityContainer>
+        <Association Name="FK_User_UserType">
+          <End Type="MainDevEnvModel.UserType" Role="UserType" Multiplicity="1" />
+          <End Type="MainDevEnvModel.User" Role="User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="UserTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CompanyProfile_Categories">
+          <End Type="MainDevEnvModel.Category" Role="Category" Multiplicity="0..1" />
+          <End Type="MainDevEnvModel.CompanyProfile" Role="CompanyProfile" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CompanyProfile">
+              <PropertyRef Name="CategoryTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="CompanyBranchDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CompanyId" Type="Int32" />
+          <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="FirstLineOfAddress" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Phone" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="AreaCode" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CompanyProfile" Relationship="MainDevEnvModel.FK_CompanyBranchDetail_CompanyProfile" FromRole="CompanyBranchDetail" ToRole="CompanyProfile" />
+          <NavigationProperty Name="CompanyUserDetails" Relationship="MainDevEnvModel.FK_CompanyUserDetail_CompanyBranchDetail" FromRole="CompanyBranchDetail" ToRole="CompanyUserDetail" />
+        </EntityType>
+        <EntityType Name="CompanyUserDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" />
+          <Property Name="CompanyId" Type="Int32" />
+          <Property Name="IsBranchWildCard" Type="Boolean" />
+          <Property Name="CompanyBranchId" Type="Int32" />
+          <NavigationProperty Name="CompanyBranchDetail" Relationship="MainDevEnvModel.FK_CompanyUserDetail_CompanyBranchDetail" FromRole="CompanyUserDetail" ToRole="CompanyBranchDetail" />
+          <NavigationProperty Name="CompanyProfile" Relationship="MainDevEnvModel.FK_CompanyUserDetail_CompanyProfile" FromRole="CompanyUserDetail" ToRole="CompanyProfile" />
+          <NavigationProperty Name="User" Relationship="MainDevEnvModel.FK_CompanyUserDetail_User" FromRole="CompanyUserDetail" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_CompanyBranchDetail_CompanyProfile">
+          <End Type="MainDevEnvModel.CompanyProfile" Role="CompanyProfile" Multiplicity="0..1" />
+          <End Type="MainDevEnvModel.CompanyBranchDetail" Role="CompanyBranchDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CompanyProfile">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CompanyBranchDetail">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CompanyUserDetail_CompanyBranchDetail">
+          <End Type="MainDevEnvModel.CompanyBranchDetail" Role="CompanyBranchDetail" Multiplicity="0..1" />
+          <End Type="MainDevEnvModel.CompanyUserDetail" Role="CompanyUserDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CompanyBranchDetail">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CompanyUserDetail">
+              <PropertyRef Name="CompanyBranchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CompanyUserDetail_CompanyProfile">
+          <End Type="MainDevEnvModel.CompanyProfile" Role="CompanyProfile" Multiplicity="0..1" />
+          <End Type="MainDevEnvModel.CompanyUserDetail" Role="CompanyUserDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CompanyProfile">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CompanyUserDetail">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CompanyUserDetail_User">
+          <End Type="MainDevEnvModel.User" Role="User" Multiplicity="0..1" />
+          <End Type="MainDevEnvModel.CompanyUserDetail" Role="CompanyUserDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="CompanyUserDetail">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserAreaCode_User">
+          <End Type="MainDevEnvModel.User" Role="User" Multiplicity="1" />
+          <End Type="MainDevEnvModel.UserAreaCode" Role="UserAreaCode" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="UserAreaCode">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MainDevEnvModelStoreContainer" CdmEntityContainer="MainDevEnvEntities">
+          <EntitySetMapping Name="Categories">
+            <EntityTypeMapping TypeName="MainDevEnvModel.Category">
+              <MappingFragment StoreEntitySet="Categories">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CompanyProfiles">
+            <EntityTypeMapping TypeName="MainDevEnvModel.CompanyProfile">
+              <MappingFragment StoreEntitySet="CompanyProfile">
+                <ScalarProperty Name="CategoryTypeId" ColumnName="CategoryTypeId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CompanyPromotions">
+            <EntityTypeMapping TypeName="MainDevEnvModel.CompanyPromotion">
+              <MappingFragment StoreEntitySet="CompanyPromotion">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="PromotionText" ColumnName="PromotionText" />
+                <ScalarProperty Name="AreaCode" ColumnName="AreaCode" />
+                <ScalarProperty Name="IsAreaCodeWildCard" ColumnName="IsAreaCodeWildCard" />
+                <ScalarProperty Name="PromotionExpiryDate" ColumnName="PromotionExpiryDate" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="DateModified" ColumnName="DateModified" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CompanySubscribedCategories">
+            <EntityTypeMapping TypeName="MainDevEnvModel.CompanySubscribedCategory">
+              <MappingFragment StoreEntitySet="CompanySubscribedCategories">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CompanyUserTypes">
+            <EntityTypeMapping TypeName="MainDevEnvModel.CompanyUserType">
+              <MappingFragment StoreEntitySet="CompanyUserType">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="MainDevEnvModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="UserTypeId" ColumnName="UserTypeId" />
+                <ScalarProperty Name="CompanyUserTypeId" ColumnName="CompanyUserTypeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserAreaCodes">
+            <EntityTypeMapping TypeName="MainDevEnvModel.UserAreaCode">
+              <MappingFragment StoreEntitySet="UserAreaCode">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="AreaCode" ColumnName="AreaCode" />
+                <ScalarProperty Name="AreaAdress" ColumnName="AreaAdress" />
+                </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserCategories">
+            <EntityTypeMapping TypeName="MainDevEnvModel.UserCategory">
+              <MappingFragment StoreEntitySet="UserCategories">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserTypes">
+            <EntityTypeMapping TypeName="MainDevEnvModel.UserType">
+              <MappingFragment StoreEntitySet="UserType">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CompanyBranchDetails">
+            <EntityTypeMapping TypeName="MainDevEnvModel.CompanyBranchDetail">
+              <MappingFragment StoreEntitySet="CompanyBranchDetail">
+                <ScalarProperty Name="AreaCode" ColumnName="AreaCode" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="FirstLineOfAddress" ColumnName="FirstLineOfAddress" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CompanyUserDetails">
+            <EntityTypeMapping TypeName="MainDevEnvModel.CompanyUserDetail">
+              <MappingFragment StoreEntitySet="CompanyUserDetail">
+                <ScalarProperty Name="CompanyBranchId" ColumnName="CompanyBranchId" />
+                <ScalarProperty Name="IsBranchWildCard" ColumnName="IsBranchWildCard" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

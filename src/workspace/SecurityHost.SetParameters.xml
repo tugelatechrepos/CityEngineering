@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <setParameter name="IIS Web Application Name" value="Default Web Site/Security" />
+  <setParameter name="IdentityDevEnvEntities-Web.config Connection String" value="metadata=res://*/IdentityModel.csdl|res://*/IdentityModel.ssdl|res://*/IdentityModel.msl;provider=System.Data.SqlClient;provider connection string=&quot;data source=tugelatechdbinstance.cowtrx3rlueo.us-east-1.rds.amazonaws.com,1433;initial catalog=IdentityDevEnv;user id=tugeladev;password=tugeladev;MultipleActiveResultSets=True;App=EntityFramework&quot;" />
+  <setParameter name="MainDevEnvEntities-Web.config Connection String" value="metadata=res://*/MainModel.csdl|res://*/MainModel.ssdl|res://*/MainModel.msl;provider=System.Data.SqlClient;provider connection string=&quot;data source=tugelatechdbinstance.cowtrx3rlueo.us-east-1.rds.amazonaws.com,1433;initial catalog=MainDevEnv;user id=tugeladev;password=tugeladev;MultipleActiveResultSets=True;App=EntityFramework&quot;" />
+</parameters>

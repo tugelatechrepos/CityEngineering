@@ -1,0 +1,16 @@
+{
+  "manifestVersion": 1,
+  "deployments": 
+  {
+    "msDeploy":
+    [{
+      "name": "Security",
+      "parameters":
+      {
+        "appBundle": "SecurityHost.zip",
+        "iisPath": "/Security",
+        "iisWebSite": "Default Web Site"
+      }
+    }]
+  }
+}
