@@ -26,13 +26,11 @@ namespace Project.Core
             {
                 if (_Container == null)
                 {
-                    var catalog =
-                       new DirectoryCatalog(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "bin") ,"*.dll");
+                    var catalog = new DirectoryCatalog(AppDomain.CurrentDomain.BaseDirectory, "*.dll");
+                    //new DirectoryCatalog(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "bin") ,"*.dll");
 
                     _Container = new CompositionContainer(catalog);
-
                 }
-
                 return _Container;
             }
         }

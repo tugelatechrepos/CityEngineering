@@ -18,6 +18,7 @@ namespace SecurityAccess.Service
         public CompanyBranchDetail()
         {
             this.CompanyUserDetails = new HashSet<CompanyUserDetail>();
+            this.BranchGeometries = new HashSet<BranchGeometry>();
         }
     
         public int Id { get; set; }
@@ -26,10 +27,12 @@ namespace SecurityAccess.Service
         public string FirstLineOfAddress { get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }
-        public string AreaCode { get; set; }
+        public int AreaCode { get; set; }
     
         public virtual CompanyProfile CompanyProfile { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CompanyUserDetail> CompanyUserDetails { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<BranchGeometry> BranchGeometries { get; set; }
     }
 }

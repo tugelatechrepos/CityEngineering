@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Project.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Output\Project.Core.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -41,18 +45,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Contracts\AreaInformation.cs" />
+    <Compile Include="Contracts\Category.cs" />
     <Compile Include="Contracts\CheckForUserAccountRequest.cs" />
     <Compile Include="Contracts\CheckForUserAccountResponse.cs" />
     <Compile Include="Contracts\Company.cs" />
     <Compile Include="Contracts\CompanyCategory.cs" />
+    <Compile Include="Contracts\GetCategoriesResponse.cs" />
     <Compile Include="Contracts\GetUserForAuthenticateRequest.cs" />
     <Compile Include="Contracts\GetUserForAuthenticateResponse.cs" />
+    <Compile Include="Contracts\GetUserProfileRequest.cs" />
+    <Compile Include="Contracts\SearchServiceRequest.cs" />
+    <Compile Include="Contracts\SearchServiceResponse.cs" />
     <Compile Include="Contracts\SignUpUserRequest.cs" />
     <Compile Include="Contracts\SignUpUserResponse.cs" />
     <Compile Include="Contracts\UserAccount.cs" />
     <Compile Include="Contracts\UserInfo.cs" />
     <Compile Include="Contracts\UserType.cs" />
-    <Compile Include="Contracts\ValidationResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

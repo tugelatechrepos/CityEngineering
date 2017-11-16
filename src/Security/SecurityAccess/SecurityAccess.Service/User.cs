@@ -20,6 +20,7 @@ namespace SecurityAccess.Service
             this.UserCategories = new HashSet<UserCategory>();
             this.CompanyUserDetails = new HashSet<CompanyUserDetail>();
             this.UserAreaCodes = new HashSet<UserAreaCode>();
+            this.UserGeometries = new HashSet<UserGeometry>();
         }
     
         public int UserId { get; set; }
@@ -38,5 +39,7 @@ namespace SecurityAccess.Service
         public virtual ICollection<CompanyUserDetail> CompanyUserDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserAreaCode> UserAreaCodes { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<UserGeometry> UserGeometries { get; set; }
     }
 }

@@ -1,12 +1,7 @@
 ﻿using SecurityAccess.Contracts;
 using SecurityAccess.Contracts.Contracts;
 using SecurityAccess.Service.Operations;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SecurityAccess.Client
 {

@@ -1,0 +1,691 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="MunicipalityDevEnvModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Amenity">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AmenityType" Type="varchar" MaxLength="50" />
+          <Property Name="Description" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="AmenityArea">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AmenityId" Type="int" Nullable="false" />
+          <Property Name="AreaCode" Type="int" Nullable="false" />
+          <Property Name="AreaAdress" Type="varchar" MaxLength="100" />
+          <Property Name="Description" Type="varchar" MaxLength="100" />
+          <Property Name="DateCreated" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Municipality">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProvinceId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="MayorName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="DateCreated" Type="datetime" />
+        </EntityType>
+        <EntityType Name="MunicipalityAmenities">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MunicipalityId" Type="int" Nullable="false" />
+          <Property Name="AmenityAreaId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MunicipalityAnnouncements">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MunicipalityId" Type="int" Nullable="false" />
+          <Property Name="AnnouncementText" Type="varchar" MaxLength="100" />
+          <Property Name="IsAreaWildCard" Type="bit" Nullable="false" />
+          <Property Name="AreaCode" Type="int" Nullable="false" />
+          <Property Name="AnnouncementExpiryDate" Type="datetime" />
+          <Property Name="IsActiveAnnouncement" Type="int" Nullable="false" />
+          <Property Name="DateCreated" Type="datetime" Nullable="false" />
+          <Property Name="DateModified" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MunicipalityAreaCodes">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MunicipalityId" Type="int" Nullable="false" />
+          <Property Name="AreaCode" Type="int" />
+          <Property Name="Place" Type="varchar" MaxLength="100" />
+          <Property Name="Description" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="MunicipalityUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="50" />
+          <Property Name="MunicipalityId" Type="int" Nullable="false" />
+          <Property Name="MunicipalityUserTypeId" Type="int" Nullable="false" />
+          <Property Name="IsVerified" Type="bit" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="DateCreated" Type="datetime" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="50" />
+          <Property Name="DateModified" Type="datetime" />
+          <Property Name="ModifiedBy" Type="datetime" />
+        </EntityType>
+        <EntityType Name="MunicipalityUserType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Type" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MunicipalityUserVerfication">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="VerificationText" Type="int" Nullable="false" />
+          <Property Name="VerificationTextDateTime" Type="datetime" Nullable="false" />
+          <Property Name="VerificationTextExpiryInSeconds" Type="datetime" Nullable="false" />
+          <Property Name="DateCreated" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Province">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Province" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <Association Name="FK_AmenityArea_Amenity">
+          <End Role="Amenity" Type="Self.Amenity" Multiplicity="1" />
+          <End Role="AmenityArea" Type="Self.AmenityArea" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Amenity">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AmenityArea">
+              <PropertyRef Name="AmenityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Municipality_Province">
+          <End Role="Province" Type="Self.Province" Multiplicity="1" />
+          <End Role="Municipality" Type="Self.Municipality" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Province">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Municipality">
+              <PropertyRef Name="ProvinceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MunicipalityAmenities_AmenityArea">
+          <End Role="AmenityArea" Type="Self.AmenityArea" Multiplicity="1" />
+          <End Role="MunicipalityAmenities" Type="Self.MunicipalityAmenities" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AmenityArea">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MunicipalityAmenities">
+              <PropertyRef Name="AmenityAreaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MunicipalityAmenities_Municipality">
+          <End Role="Municipality" Type="Self.Municipality" Multiplicity="1" />
+          <End Role="MunicipalityAmenities" Type="Self.MunicipalityAmenities" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Municipality">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MunicipalityAmenities">
+              <PropertyRef Name="MunicipalityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MunicipalityAnnouncements_Municipality">
+          <End Role="Municipality" Type="Self.Municipality" Multiplicity="1" />
+          <End Role="MunicipalityAnnouncements" Type="Self.MunicipalityAnnouncements" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Municipality">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MunicipalityAnnouncements">
+              <PropertyRef Name="MunicipalityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MunicipalityAreaCodes_Municipality">
+          <End Role="Municipality" Type="Self.Municipality" Multiplicity="1" />
+          <End Role="MunicipalityAreaCodes" Type="Self.MunicipalityAreaCodes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Municipality">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MunicipalityAreaCodes">
+              <PropertyRef Name="MunicipalityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MunicipalityUser_Municipality">
+          <End Role="Municipality" Type="Self.Municipality" Multiplicity="1" />
+          <End Role="MunicipalityUser" Type="Self.MunicipalityUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Municipality">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MunicipalityUser">
+              <PropertyRef Name="MunicipalityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MunicipalityUser_MunicipalityUserType">
+          <End Role="MunicipalityUserType" Type="Self.MunicipalityUserType" Multiplicity="1" />
+          <End Role="MunicipalityUser" Type="Self.MunicipalityUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MunicipalityUserType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MunicipalityUser">
+              <PropertyRef Name="MunicipalityUserTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MunicipalityUserVerfication_MunicipalityUser">
+          <End Role="MunicipalityUser" Type="Self.MunicipalityUser" Multiplicity="1" />
+          <End Role="MunicipalityUserVerfication" Type="Self.MunicipalityUserVerfication" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MunicipalityUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MunicipalityUserVerfication">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MunicipalityDevEnvModelStoreContainer">
+          <EntitySet Name="Amenity" EntityType="Self.Amenity" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AmenityArea" EntityType="Self.AmenityArea" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Municipality" EntityType="Self.Municipality" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MunicipalityAmenities" EntityType="Self.MunicipalityAmenities" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MunicipalityAnnouncements" EntityType="Self.MunicipalityAnnouncements" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MunicipalityAreaCodes" EntityType="Self.MunicipalityAreaCodes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MunicipalityUser" EntityType="Self.MunicipalityUser" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MunicipalityUserType" EntityType="Self.MunicipalityUserType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MunicipalityUserVerfication" EntityType="Self.MunicipalityUserVerfication" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Province" EntityType="Self.Province" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_AmenityArea_Amenity" Association="Self.FK_AmenityArea_Amenity">
+            <End Role="Amenity" EntitySet="Amenity" />
+            <End Role="AmenityArea" EntitySet="AmenityArea" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Municipality_Province" Association="Self.FK_Municipality_Province">
+            <End Role="Province" EntitySet="Province" />
+            <End Role="Municipality" EntitySet="Municipality" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MunicipalityAmenities_AmenityArea" Association="Self.FK_MunicipalityAmenities_AmenityArea">
+            <End Role="AmenityArea" EntitySet="AmenityArea" />
+            <End Role="MunicipalityAmenities" EntitySet="MunicipalityAmenities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MunicipalityAmenities_Municipality" Association="Self.FK_MunicipalityAmenities_Municipality">
+            <End Role="Municipality" EntitySet="Municipality" />
+            <End Role="MunicipalityAmenities" EntitySet="MunicipalityAmenities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MunicipalityAnnouncements_Municipality" Association="Self.FK_MunicipalityAnnouncements_Municipality">
+            <End Role="Municipality" EntitySet="Municipality" />
+            <End Role="MunicipalityAnnouncements" EntitySet="MunicipalityAnnouncements" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MunicipalityAreaCodes_Municipality" Association="Self.FK_MunicipalityAreaCodes_Municipality">
+            <End Role="Municipality" EntitySet="Municipality" />
+            <End Role="MunicipalityAreaCodes" EntitySet="MunicipalityAreaCodes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MunicipalityUser_Municipality" Association="Self.FK_MunicipalityUser_Municipality">
+            <End Role="Municipality" EntitySet="Municipality" />
+            <End Role="MunicipalityUser" EntitySet="MunicipalityUser" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MunicipalityUser_MunicipalityUserType" Association="Self.FK_MunicipalityUser_MunicipalityUserType">
+            <End Role="MunicipalityUserType" EntitySet="MunicipalityUserType" />
+            <End Role="MunicipalityUser" EntitySet="MunicipalityUser" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MunicipalityUserVerfication_MunicipalityUser" Association="Self.FK_MunicipalityUserVerfication_MunicipalityUser">
+            <End Role="MunicipalityUser" EntitySet="MunicipalityUser" />
+            <End Role="MunicipalityUserVerfication" EntitySet="MunicipalityUserVerfication" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MunicipalityDevEnvModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Amenity">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AmenityType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="AmenityAreas" Relationship="Self.FK_AmenityArea_Amenity" FromRole="Amenity" ToRole="AmenityArea" />
+        </EntityType>
+        <EntityType Name="AmenityArea">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AmenityId" Type="Int32" Nullable="false" />
+          <Property Name="AreaCode" Type="Int32" Nullable="false" />
+          <Property Name="AreaAdress" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="DateCreated" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Amenity" Relationship="Self.FK_AmenityArea_Amenity" FromRole="AmenityArea" ToRole="Amenity" />
+          <NavigationProperty Name="MunicipalityAmenities" Relationship="Self.FK_MunicipalityAmenities_AmenityArea" FromRole="AmenityArea" ToRole="MunicipalityAmenities" />
+        </EntityType>
+        <EntityType Name="Municipality">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProvinceId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="MayorName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DateCreated" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Province" Relationship="Self.FK_Municipality_Province" FromRole="Municipality" ToRole="Province" />
+          <NavigationProperty Name="MunicipalityAmenities" Relationship="Self.FK_MunicipalityAmenities_Municipality" FromRole="Municipality" ToRole="MunicipalityAmenities" />
+          <NavigationProperty Name="MunicipalityAnnouncements" Relationship="Self.FK_MunicipalityAnnouncements_Municipality" FromRole="Municipality" ToRole="MunicipalityAnnouncements" />
+          <NavigationProperty Name="MunicipalityAreaCodes" Relationship="Self.FK_MunicipalityAreaCodes_Municipality" FromRole="Municipality" ToRole="MunicipalityAreaCodes" />
+          <NavigationProperty Name="MunicipalityUsers" Relationship="Self.FK_MunicipalityUser_Municipality" FromRole="Municipality" ToRole="MunicipalityUser" />
+        </EntityType>
+        <EntityType Name="MunicipalityAmenity">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MunicipalityId" Type="Int32" Nullable="false" />
+          <Property Name="AmenityAreaId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="AmenityArea" Relationship="Self.FK_MunicipalityAmenities_AmenityArea" FromRole="MunicipalityAmenities" ToRole="AmenityArea" />
+          <NavigationProperty Name="Municipality" Relationship="Self.FK_MunicipalityAmenities_Municipality" FromRole="MunicipalityAmenities" ToRole="Municipality" />
+        </EntityType>
+        <EntityType Name="MunicipalityAnnouncement">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MunicipalityId" Type="Int32" Nullable="false" />
+          <Property Name="AnnouncementText" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="IsAreaWildCard" Type="Boolean" Nullable="false" />
+          <Property Name="AreaCode" Type="Int32" Nullable="false" />
+          <Property Name="AnnouncementExpiryDate" Type="DateTime" Precision="3" />
+          <Property Name="IsActiveAnnouncement" Type="Int32" Nullable="false" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DateModified" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Municipality" Relationship="Self.FK_MunicipalityAnnouncements_Municipality" FromRole="MunicipalityAnnouncements" ToRole="Municipality" />
+        </EntityType>
+        <EntityType Name="MunicipalityAreaCode">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MunicipalityId" Type="Int32" Nullable="false" />
+          <Property Name="AreaCode" Type="Int32" />
+          <Property Name="Place" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Municipality" Relationship="Self.FK_MunicipalityAreaCodes_Municipality" FromRole="MunicipalityAreaCodes" ToRole="Municipality" />
+        </EntityType>
+        <EntityType Name="MunicipalityUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MunicipalityId" Type="Int32" Nullable="false" />
+          <Property Name="MunicipalityUserTypeId" Type="Int32" Nullable="false" />
+          <Property Name="IsVerified" Type="Boolean" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="DateCreated" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DateModified" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Municipality" Relationship="Self.FK_MunicipalityUser_Municipality" FromRole="MunicipalityUser" ToRole="Municipality" />
+          <NavigationProperty Name="MunicipalityUserType" Relationship="Self.FK_MunicipalityUser_MunicipalityUserType" FromRole="MunicipalityUser" ToRole="MunicipalityUserType" />
+          <NavigationProperty Name="MunicipalityUserVerfications" Relationship="Self.FK_MunicipalityUserVerfication_MunicipalityUser" FromRole="MunicipalityUser" ToRole="MunicipalityUserVerfication" />
+        </EntityType>
+        <EntityType Name="MunicipalityUserType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="MunicipalityUsers" Relationship="Self.FK_MunicipalityUser_MunicipalityUserType" FromRole="MunicipalityUserType" ToRole="MunicipalityUser" />
+        </EntityType>
+        <EntityType Name="MunicipalityUserVerfication">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="VerificationText" Type="Int32" Nullable="false" />
+          <Property Name="VerificationTextDateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="VerificationTextExpiryInSeconds" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="MunicipalityUser" Relationship="Self.FK_MunicipalityUserVerfication_MunicipalityUser" FromRole="MunicipalityUserVerfication" ToRole="MunicipalityUser" />
+        </EntityType>
+        <EntityType Name="Province">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Province1" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Municipalities" Relationship="Self.FK_Municipality_Province" FromRole="Province" ToRole="Municipality" />
+        </EntityType>
+        <Association Name="FK_AmenityArea_Amenity">
+          <End Role="Amenity" Type="Self.Amenity" Multiplicity="1" />
+          <End Role="AmenityArea" Type="Self.AmenityArea" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Amenity">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AmenityArea">
+              <PropertyRef Name="AmenityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MunicipalityAmenities_AmenityArea">
+          <End Role="AmenityArea" Type="Self.AmenityArea" Multiplicity="1" />
+          <End Role="MunicipalityAmenities" Type="Self.MunicipalityAmenity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AmenityArea">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MunicipalityAmenities">
+              <PropertyRef Name="AmenityAreaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Municipality_Province">
+          <End Role="Province" Type="Self.Province" Multiplicity="1" />
+          <End Role="Municipality" Type="Self.Municipality" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Province">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Municipality">
+              <PropertyRef Name="ProvinceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MunicipalityAmenities_Municipality">
+          <End Role="Municipality" Type="Self.Municipality" Multiplicity="1" />
+          <End Role="MunicipalityAmenities" Type="Self.MunicipalityAmenity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Municipality">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MunicipalityAmenities">
+              <PropertyRef Name="MunicipalityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MunicipalityAnnouncements_Municipality">
+          <End Role="Municipality" Type="Self.Municipality" Multiplicity="1" />
+          <End Role="MunicipalityAnnouncements" Type="Self.MunicipalityAnnouncement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Municipality">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MunicipalityAnnouncements">
+              <PropertyRef Name="MunicipalityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MunicipalityAreaCodes_Municipality">
+          <End Role="Municipality" Type="Self.Municipality" Multiplicity="1" />
+          <End Role="MunicipalityAreaCodes" Type="Self.MunicipalityAreaCode" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Municipality">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MunicipalityAreaCodes">
+              <PropertyRef Name="MunicipalityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MunicipalityUser_Municipality">
+          <End Role="Municipality" Type="Self.Municipality" Multiplicity="1" />
+          <End Role="MunicipalityUser" Type="Self.MunicipalityUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Municipality">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MunicipalityUser">
+              <PropertyRef Name="MunicipalityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MunicipalityUser_MunicipalityUserType">
+          <End Role="MunicipalityUserType" Type="Self.MunicipalityUserType" Multiplicity="1" />
+          <End Role="MunicipalityUser" Type="Self.MunicipalityUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MunicipalityUserType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MunicipalityUser">
+              <PropertyRef Name="MunicipalityUserTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MunicipalityUserVerfication_MunicipalityUser">
+          <End Role="MunicipalityUser" Type="Self.MunicipalityUser" Multiplicity="1" />
+          <End Role="MunicipalityUserVerfication" Type="Self.MunicipalityUserVerfication" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MunicipalityUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MunicipalityUserVerfication">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MunicipalityDevEnvEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Amenities" EntityType="Self.Amenity" />
+          <EntitySet Name="AmenityAreas" EntityType="Self.AmenityArea" />
+          <EntitySet Name="Municipalities" EntityType="Self.Municipality" />
+          <EntitySet Name="MunicipalityAmenities" EntityType="Self.MunicipalityAmenity" />
+          <EntitySet Name="MunicipalityAnnouncements" EntityType="Self.MunicipalityAnnouncement" />
+          <EntitySet Name="MunicipalityAreaCodes" EntityType="Self.MunicipalityAreaCode" />
+          <EntitySet Name="MunicipalityUsers" EntityType="Self.MunicipalityUser" />
+          <EntitySet Name="MunicipalityUserTypes" EntityType="Self.MunicipalityUserType" />
+          <EntitySet Name="MunicipalityUserVerfications" EntityType="Self.MunicipalityUserVerfication" />
+          <EntitySet Name="Provinces" EntityType="Self.Province" />
+          <AssociationSet Name="FK_AmenityArea_Amenity" Association="Self.FK_AmenityArea_Amenity">
+            <End Role="Amenity" EntitySet="Amenities" />
+            <End Role="AmenityArea" EntitySet="AmenityAreas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MunicipalityAmenities_AmenityArea" Association="Self.FK_MunicipalityAmenities_AmenityArea">
+            <End Role="AmenityArea" EntitySet="AmenityAreas" />
+            <End Role="MunicipalityAmenities" EntitySet="MunicipalityAmenities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Municipality_Province" Association="Self.FK_Municipality_Province">
+            <End Role="Province" EntitySet="Provinces" />
+            <End Role="Municipality" EntitySet="Municipalities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MunicipalityAmenities_Municipality" Association="Self.FK_MunicipalityAmenities_Municipality">
+            <End Role="Municipality" EntitySet="Municipalities" />
+            <End Role="MunicipalityAmenities" EntitySet="MunicipalityAmenities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MunicipalityAnnouncements_Municipality" Association="Self.FK_MunicipalityAnnouncements_Municipality">
+            <End Role="Municipality" EntitySet="Municipalities" />
+            <End Role="MunicipalityAnnouncements" EntitySet="MunicipalityAnnouncements" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MunicipalityAreaCodes_Municipality" Association="Self.FK_MunicipalityAreaCodes_Municipality">
+            <End Role="Municipality" EntitySet="Municipalities" />
+            <End Role="MunicipalityAreaCodes" EntitySet="MunicipalityAreaCodes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MunicipalityUser_Municipality" Association="Self.FK_MunicipalityUser_Municipality">
+            <End Role="Municipality" EntitySet="Municipalities" />
+            <End Role="MunicipalityUser" EntitySet="MunicipalityUsers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MunicipalityUser_MunicipalityUserType" Association="Self.FK_MunicipalityUser_MunicipalityUserType">
+            <End Role="MunicipalityUserType" EntitySet="MunicipalityUserTypes" />
+            <End Role="MunicipalityUser" EntitySet="MunicipalityUsers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MunicipalityUserVerfication_MunicipalityUser" Association="Self.FK_MunicipalityUserVerfication_MunicipalityUser">
+            <End Role="MunicipalityUser" EntitySet="MunicipalityUsers" />
+            <End Role="MunicipalityUserVerfication" EntitySet="MunicipalityUserVerfications" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MunicipalityDevEnvModelStoreContainer" CdmEntityContainer="MunicipalityDevEnvEntities">
+          <EntitySetMapping Name="Amenities">
+            <EntityTypeMapping TypeName="MunicipalityDevEnvModel.Amenity">
+              <MappingFragment StoreEntitySet="Amenity">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="AmenityType" ColumnName="AmenityType" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AmenityAreas">
+            <EntityTypeMapping TypeName="MunicipalityDevEnvModel.AmenityArea">
+              <MappingFragment StoreEntitySet="AmenityArea">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="AmenityId" ColumnName="AmenityId" />
+                <ScalarProperty Name="AreaCode" ColumnName="AreaCode" />
+                <ScalarProperty Name="AreaAdress" ColumnName="AreaAdress" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Municipalities">
+            <EntityTypeMapping TypeName="MunicipalityDevEnvModel.Municipality">
+              <MappingFragment StoreEntitySet="Municipality">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ProvinceId" ColumnName="ProvinceId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="MayorName" ColumnName="MayorName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MunicipalityAmenities">
+            <EntityTypeMapping TypeName="MunicipalityDevEnvModel.MunicipalityAmenity">
+              <MappingFragment StoreEntitySet="MunicipalityAmenities">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="MunicipalityId" ColumnName="MunicipalityId" />
+                <ScalarProperty Name="AmenityAreaId" ColumnName="AmenityAreaId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MunicipalityAnnouncements">
+            <EntityTypeMapping TypeName="MunicipalityDevEnvModel.MunicipalityAnnouncement">
+              <MappingFragment StoreEntitySet="MunicipalityAnnouncements">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="MunicipalityId" ColumnName="MunicipalityId" />
+                <ScalarProperty Name="AnnouncementText" ColumnName="AnnouncementText" />
+                <ScalarProperty Name="IsAreaWildCard" ColumnName="IsAreaWildCard" />
+                <ScalarProperty Name="AreaCode" ColumnName="AreaCode" />
+                <ScalarProperty Name="AnnouncementExpiryDate" ColumnName="AnnouncementExpiryDate" />
+                <ScalarProperty Name="IsActiveAnnouncement" ColumnName="IsActiveAnnouncement" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="DateModified" ColumnName="DateModified" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MunicipalityAreaCodes">
+            <EntityTypeMapping TypeName="MunicipalityDevEnvModel.MunicipalityAreaCode">
+              <MappingFragment StoreEntitySet="MunicipalityAreaCodes">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="MunicipalityId" ColumnName="MunicipalityId" />
+                <ScalarProperty Name="AreaCode" ColumnName="AreaCode" />
+                <ScalarProperty Name="Place" ColumnName="Place" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MunicipalityUsers">
+            <EntityTypeMapping TypeName="MunicipalityDevEnvModel.MunicipalityUser">
+              <MappingFragment StoreEntitySet="MunicipalityUser">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="MunicipalityId" ColumnName="MunicipalityId" />
+                <ScalarProperty Name="MunicipalityUserTypeId" ColumnName="MunicipalityUserTypeId" />
+                <ScalarProperty Name="IsVerified" ColumnName="IsVerified" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="DateModified" ColumnName="DateModified" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MunicipalityUserTypes">
+            <EntityTypeMapping TypeName="MunicipalityDevEnvModel.MunicipalityUserType">
+              <MappingFragment StoreEntitySet="MunicipalityUserType">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MunicipalityUserVerfications">
+            <EntityTypeMapping TypeName="MunicipalityDevEnvModel.MunicipalityUserVerfication">
+              <MappingFragment StoreEntitySet="MunicipalityUserVerfication">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="VerificationText" ColumnName="VerificationText" />
+                <ScalarProperty Name="VerificationTextDateTime" ColumnName="VerificationTextDateTime" />
+                <ScalarProperty Name="VerificationTextExpiryInSeconds" ColumnName="VerificationTextExpiryInSeconds" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Provinces">
+            <EntityTypeMapping TypeName="MunicipalityDevEnvModel.Province">
+              <MappingFragment StoreEntitySet="Province">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Province1" ColumnName="Province" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

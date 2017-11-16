@@ -1,9 +1,12 @@
-﻿using SecurityAccess.Contracts;
+﻿using Newtonsoft.Json;
+using Project.Core;
+using SecurityAccess.Contracts;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace SecurityAccess.Service.Repositories
@@ -32,6 +35,9 @@ namespace SecurityAccess.Service.Repositories
         #region Declarations
         private PersistUserDetailsRequest _Request;
         private PersistUserDetailsResponse _Response;
+
+        [Import]
+        public IGetUserGeometryRepository GetUserGeometryRepository { get; set; }
         #endregion Declarations
 
         public PersistUserDetailsResponse PersistUserDetails(PersistUserDetailsRequest PersistUserDetailsRequest)
@@ -71,16 +77,16 @@ namespace SecurityAccess.Service.Repositories
                         AreaAdress = userAreaCode.FirstLineOfAddress,
                         AreaCode = userAreaCode.AreaCode
                     }).ToList(),
-
+                    UserGeometries = getGeometry(_Request.UserInfo.UserAreaCodeList.First().FirstLineOfAddress,
+                    _Request.UserInfo.UserAreaCodeList.First().AreaCode),
                     UserCategories = _Request.UserInfo.UserCategoryList?.Select(userCategory => new UserCategory
                     {
                         Id = userCategory.Id,
                         UserId = _Request.UserInfo.Id,
-                        CategoryId = userCategory.CategoryId,
+                        CategoryId = userCategory.Category.Id,
                     }).ToList()
                 };
-                _Request.MainDevEnvEntities.Users.Add(user);
-                _Request.MainDevEnvEntities.SaveChanges();
+                _Request.MainDevEnvEntities.Users.Add(user);               
             }
             catch (Exception ex)
             {
@@ -106,7 +112,7 @@ namespace SecurityAccess.Service.Repositories
                     {
                         Id = subscribedCategory.Id,
                         CompanyId = subscribedCategory.CompanyId,
-                        CategoryId = subscribedCategory.CategoryId
+                        CategoryId = subscribedCategory.Category.Id
                     }).ToList(),
 
                     CompanyBranchDetails = company.CompanyBranchDetailList.Select(companyBranchDetail => new CompanyBranchDetail
@@ -117,9 +123,15 @@ namespace SecurityAccess.Service.Repositories
                         AreaCode = companyBranchDetail.AreaInformation.AreaCode,
                         Description = companyBranchDetail.Description,
                         Email = companyBranchDetail.Email,
-                        Phone = companyBranchDetail.PhoneNumber
+                        Phone = companyBranchDetail.PhoneNumber,
+                        BranchGeometries = new List<BranchGeometry>
+                        {
+                          getBranchGeometry(companyBranchDetail.AreaInformation.FirstLineOfAddress, 
+                          Convert.ToInt32(companyBranchDetail.AreaInformation.AreaCode))
+                        }
                     }).ToList(),
-
+                   
+                   
                     CompanyUserDetails = company.CompanyUserDetailList.Select(CompanyUserDetail => new CompanyUserDetail
                     {
                         Id = CompanyUserDetail.Id,
@@ -136,6 +148,49 @@ namespace SecurityAccess.Service.Repositories
                 var validationResult = new ValidationResult { ValidationMessage = ex.Message };
                 _Response.ValidationResults.Add(validationResult);
             }
+        }
+
+        private ICollection<UserGeometry> getGeometry(string firstLineOfAddress, int areaCode)
+        {
+           ICollection<UserGeometry> userGeometryList = null;
+           var response = GetUserGeometryRepository.GetUserGeometry(new GetUserGeometryRequest
+            {
+                FirstLineOfAddress = firstLineOfAddress,
+                AreaCode = areaCode
+            });
+
+            if (response.Geometry == null) return userGeometryList;
+
+            var UserGeometry = new UserGeometry
+            {
+                UserId = _Request.UserInfo.Id,
+                Geometry = JsonConvert.SerializeObject(response.Geometry)
+            };
+            userGeometryList = new List<UserGeometry>();
+            userGeometryList.Add(UserGeometry);
+            return userGeometryList;
+        }
+
+        private BranchGeometry getBranchGeometry(string firstLineOfAddress, int areaCode)
+        {
+            BranchGeometry branchGeometry = null;
+            var response = GetUserGeometryRepository.GetUserGeometry(new GetUserGeometryRequest
+            {
+                FirstLineOfAddress = firstLineOfAddress,
+                AreaCode = areaCode
+            });
+            
+            if (response.Geometry == null)
+            {
+                return branchGeometry;
+            }
+
+            branchGeometry = new BranchGeometry
+            {
+                Geometry = JsonConvert.SerializeObject(response.Geometry)
+            };
+
+            return branchGeometry;
         }
     }
 }

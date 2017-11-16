@@ -1,4 +1,6 @@
-﻿namespace SecurityAccess.Contracts.Contracts
+﻿using Project.Core;
+
+namespace SecurityAccess.Contracts.Contracts
 {
 
     public class GetUserForAuthenticateResponse

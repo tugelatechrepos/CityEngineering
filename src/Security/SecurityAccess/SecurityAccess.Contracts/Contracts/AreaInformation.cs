@@ -9,6 +9,6 @@ namespace SecurityAccess.Contracts
     {
         public string FirstLineOfAddress { get; set; }
 
-        public string AreaCode { get; set; }
+        public int AreaCode { get; set; }
     }
 }

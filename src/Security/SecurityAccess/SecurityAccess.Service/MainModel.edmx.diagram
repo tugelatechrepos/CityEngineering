@@ -29,6 +29,10 @@
         <AssociationConnector Association="MainDevEnvModel.FK_CompanyUserDetail_CompanyProfile" />
         <AssociationConnector Association="MainDevEnvModel.FK_CompanyUserDetail_User" />
         <AssociationConnector Association="MainDevEnvModel.FK_UserAreaCode_User" />
+        <EntityTypeShape EntityType="MainDevEnvModel.UserGeometry" Width="1.5" PointX="6" PointY="10.25" />
+        <AssociationConnector Association="MainDevEnvModel.FK_UserGeometry_User" />
+        <EntityTypeShape EntityType="MainDevEnvModel.BranchGeometry" Width="1.5" PointX="5.25" PointY="0.75" />
+        <AssociationConnector Association="MainDevEnvModel.FK_BranchGeometry_CompanyBranchDetail" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

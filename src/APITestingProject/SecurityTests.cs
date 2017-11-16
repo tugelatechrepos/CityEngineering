@@ -17,6 +17,7 @@ namespace APITestingProject
         {        
 
             var client = new HttpClient();
+            
             var baseaddress = new Uri("http://localhost:49808/");
             client.BaseAddress = baseaddress;
             var param = getSignUpUserRequest();

@@ -1,4 +1,5 @@
-﻿using SecurityAccess.Contracts;
+﻿using Project.Core;
+using SecurityAccess.Contracts;
 using SecurityAccess.Service.Repositories;
 using System.ComponentModel.Composition;
 

@@ -1,4 +1,5 @@
-﻿using SecurityAccess.Contracts;
+﻿using Project.Core;
+using SecurityAccess.Contracts;
 using SecurityAccess.Contracts.Contracts;
 using System;
 using System.ComponentModel.Composition;
@@ -144,5 +145,6 @@ namespace SecurityAccess.Service.Repositories
             });
             _Response.ValidationResults = persistUserDetailsResponse.ValidationResults;
         }
+
     }
 }

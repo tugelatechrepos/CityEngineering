@@ -36,5 +36,7 @@ namespace SecurityAccess.Service
         public virtual DbSet<UserType> UserTypes { get; set; }
         public virtual DbSet<CompanyBranchDetail> CompanyBranchDetails { get; set; }
         public virtual DbSet<CompanyUserDetail> CompanyUserDetails { get; set; }
+        public virtual DbSet<UserGeometry> UserGeometries { get; set; }
+        public virtual DbSet<BranchGeometry> BranchGeometries { get; set; }
     }
 }

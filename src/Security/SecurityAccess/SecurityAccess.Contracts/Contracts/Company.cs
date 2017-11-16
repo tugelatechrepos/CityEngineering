@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Project.Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -39,13 +40,17 @@ namespace SecurityAccess.Contracts
     {
         public int Id { get; set; }
 
-        public string PhoneNumber { get; set; }    
+        public string PhoneNumber { get; set; }
+        
+        public string CompanyName { get; set; }
 
         public string Email { get; set; }
 
         public string Description { get; set; }
 
         public AreaInformation AreaInformation { get; set; }
+
+        public string BranchGeometry { get; set; }
     }
 
     public class CompanySubscribedCategory
@@ -54,6 +59,6 @@ namespace SecurityAccess.Contracts
 
         public int CompanyId { get; set; }
 
-        public int CategoryId { get; set; }
+        public Category Category { get; set; }
     }
 }

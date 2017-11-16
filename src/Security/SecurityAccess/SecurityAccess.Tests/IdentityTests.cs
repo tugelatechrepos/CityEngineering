@@ -1,11 +1,9 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SecurityAccess.Service.Operations;
 using SecurityAccess.Contracts;
-using SecurityAccess.Service;
 using Project.Core;
 using System.Collections.Generic;
-using Newtonsoft.Json;
+using SecurityAccess.Service.Repositories;
 
 namespace SecurityAccess.Tests
 {
@@ -29,15 +27,15 @@ namespace SecurityAccess.Tests
                     UserType = UserTypeEnum.Company,
                     CompanyUserType = CompanyUserTypeEnum.Admin,
                     CompanyList = getCompanyList(),
-                    UserAreaCodeList = new List<Contracts.UserAreaCode> { new Contracts.UserAreaCode { FirstLineOfAddress = "KempCity", AreaCode = 324234 } },
+                    UserAreaCodeList = new List<Contracts.UserAreaCode> { new Contracts.UserAreaCode { FirstLineOfAddress = "Alberton", AreaCode = 77301 } },
                     UserCategoryList = new List<Contracts.UserCategory> {
-                        new Contracts.UserCategory { CategoryId = 1},
-                        new Contracts.UserCategory { CategoryId = 2},
+                        new Contracts.UserCategory { Category = new Category { Id = 1}},
+                        new Contracts.UserCategory { Category = new Category { Id = 2}},
                     }
                 }
             };
 
-            var json = JsonConvert.SerializeObject(signUpUserRequest);
+            //var json = JsonConvert.SerializeObject(signUpUserRequest);
             var response = persistSignUpUserOperation.PersistSignUpUser(signUpUserRequest);
         }
 
@@ -52,7 +50,7 @@ namespace SecurityAccess.Tests
                 CompanyDescription = "ABC Clothing",
                 CompanySubscribedCategories = new List<Contracts.CompanySubscribedCategory>
                 {
-                    new Contracts.CompanySubscribedCategory{ CategoryId = 1},
+                    new Contracts.CompanySubscribedCategory{ Category = new Category { Id = 1} },
                 },
                 CompanyUserDetailList = new List<Contracts.CompanyUserDetail>
                 {
@@ -66,14 +64,14 @@ namespace SecurityAccess.Tests
                         PhoneNumber = "3423432434",
                         Description = "Branch1",
                         Email = "Branch1Email",
-                        AreaInformation = new AreaInformation{AreaCode = "213213" ,  FirstLineOfAddress = "Kemp City"}
+                        AreaInformation = new AreaInformation{AreaCode = 77304 ,  FirstLineOfAddress = "Benoni"}
                     },
                      new Contracts.CompanyBranchDetail
                     {
                         PhoneNumber = "35454543543",
                         Description = "Branch2",
                         Email = "Branch2Email",
-                        AreaInformation = new AreaInformation{AreaCode = "324324" ,  FirstLineOfAddress = "Ohio City"}
+                        AreaInformation = new AreaInformation{AreaCode = 77304 ,  FirstLineOfAddress = "Benoni"}
                     },
                 }
             };
@@ -85,7 +83,7 @@ namespace SecurityAccess.Tests
                 CompanyDescription = "XYZ Food",
                 CompanySubscribedCategories = new List<Contracts.CompanySubscribedCategory>
                 {
-                    new Contracts.CompanySubscribedCategory{ CategoryId = 2},
+                    new Contracts.CompanySubscribedCategory{Category = new Category { Id = 2}},
                 },
                 CompanyUserDetailList = new List<Contracts.CompanyUserDetail>
                 {
@@ -98,14 +96,14 @@ namespace SecurityAccess.Tests
                         PhoneNumber = "434554543",
                         Description = "Branch1",
                         Email = "Branch1Email",
-                        AreaInformation = new AreaInformation{AreaCode = "213213" ,  FirstLineOfAddress = "Kemp City"}
+                        AreaInformation = new AreaInformation{AreaCode = 77304 ,  FirstLineOfAddress = "Benoni"}
                     },
                      new Contracts.CompanyBranchDetail
                     {
                         PhoneNumber = "35454543543",
                         Description = "Branch2",
                         Email = "Branch2Email",
-                        AreaInformation = new AreaInformation{AreaCode = "324324" ,  FirstLineOfAddress = "Ohio City"}
+                        AreaInformation = new AreaInformation{AreaCode = 77304 ,  FirstLineOfAddress = "Benoni"}
                     },
                 }
             };
@@ -113,6 +111,24 @@ namespace SecurityAccess.Tests
             companyList.Add(ABCCompany);
             companyList.Add(XYZCompany);
             return companyList;
+        }
+
+        [TestMethod]
+        public void GetSearchService_Test()
+        {
+            var repository = IOCManager.Resolve<ISearchServiceRepository>();
+            var response = repository.SearchService(new Contracts.Contracts.SearchServiceRequest
+            {
+                UserId = 1061,
+                CategoryId = 1,
+            });
+        }
+
+        [TestMethod]
+        public void GetCategories_Test()
+        {
+            var respository = IOCManager.Resolve<IGetCategoriesRepository>();
+            var response = respository.GetCategories();
         }
     }
 }

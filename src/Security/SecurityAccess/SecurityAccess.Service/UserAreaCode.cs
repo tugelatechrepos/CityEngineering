@@ -16,7 +16,7 @@ namespace SecurityAccess.Service
     {
         public int Id { get; set; }
         public int UserId { get; set; }
-        public Nullable<int> AreaCode { get; set; }
+        public int AreaCode { get; set; }
         public string AreaAdress { get; set; }
     
         public virtual User User { get; set; }

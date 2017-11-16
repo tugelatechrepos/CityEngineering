@@ -5,12 +5,21 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="MainDevEnvModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="BranchGeometry">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CompanyBranchDetailId" Type="int" />
+          <Property Name="Geometry" Type="nvarchar(max)" />
+        </EntityType>
         <EntityType Name="Categories">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Description" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" />
+          <Property Name="Description" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="CompanyBranchDetail">
           <Key>
@@ -22,7 +31,7 @@
           <Property Name="FirstLineOfAddress" Type="varchar" MaxLength="200" />
           <Property Name="Phone" Type="varchar" MaxLength="100" />
           <Property Name="Email" Type="varchar" MaxLength="100" />
-          <Property Name="AreaCode" Type="varchar" MaxLength="100" />
+          <Property Name="AreaCode" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="CompanyProfile">
           <Key>
@@ -91,7 +100,7 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="UserId" Type="int" Nullable="false" />
-          <Property Name="AreaCode" Type="int" />
+          <Property Name="AreaCode" Type="int" Nullable="false" />
           <Property Name="AreaAdress" Type="nvarchar" MaxLength="1000" />
         </EntityType>
         <EntityType Name="UserCategories">
@@ -102,6 +111,14 @@
           <Property Name="UserId" Type="int" Nullable="false" />
           <Property Name="CategoryId" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="UserGeometry">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" />
+          <Property Name="Geometry" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
         <EntityType Name="UserType">
           <Key>
             <PropertyRef Name="Id" />
@@ -109,6 +126,18 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="50" />
         </EntityType>
+        <Association Name="FK_BranchGeometry_CompanyBranchDetail">
+          <End Role="CompanyBranchDetail" Type="Self.CompanyBranchDetail" Multiplicity="0..1" />
+          <End Role="BranchGeometry" Type="Self.BranchGeometry" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CompanyBranchDetail">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BranchGeometry">
+              <PropertyRef Name="CompanyBranchDetailId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_CompanyBranchDetail_CompanyProfile">
           <End Role="CompanyProfile" Type="Self.CompanyProfile" Multiplicity="0..1" />
           <End Role="CompanyBranchDetail" Type="Self.CompanyBranchDetail" Multiplicity="*" />
@@ -241,7 +270,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_UserGeometry_User">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="UserGeometry" Type="Self.UserGeometry" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="UserGeometry">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="MainDevEnvModelStoreContainer">
+          <EntitySet Name="BranchGeometry" EntityType="Self.BranchGeometry" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Categories" EntityType="Self.Categories" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CompanyBranchDetail" EntityType="Self.CompanyBranchDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CompanyProfile" EntityType="Self.CompanyProfile" Schema="dbo" store:Type="Tables" />
@@ -252,7 +294,12 @@
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserAreaCode" EntityType="Self.UserAreaCode" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserCategories" EntityType="Self.UserCategories" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserGeometry" EntityType="Self.UserGeometry" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserType" EntityType="Self.UserType" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_BranchGeometry_CompanyBranchDetail" Association="Self.FK_BranchGeometry_CompanyBranchDetail">
+            <End Role="CompanyBranchDetail" EntitySet="CompanyBranchDetail" />
+            <End Role="BranchGeometry" EntitySet="BranchGeometry" />
+          </AssociationSet>
           <AssociationSet Name="FK_CompanyBranchDetail_CompanyProfile" Association="Self.FK_CompanyBranchDetail_CompanyProfile">
             <End Role="CompanyProfile" EntitySet="CompanyProfile" />
             <End Role="CompanyBranchDetail" EntitySet="CompanyBranchDetail" />
@@ -297,6 +344,10 @@
             <End Role="Categories" EntitySet="Categories" />
             <End Role="UserCategories" EntitySet="UserCategories" />
           </AssociationSet>
+          <AssociationSet Name="FK_UserGeometry_User" Association="Self.FK_UserGeometry_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="UserGeometry" EntitySet="UserGeometry" />
+          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -307,10 +358,11 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="CompanySubscribedCategories" Relationship="Self.FK_CompanySubscribedCategories_Categories" FromRole="Categories" ToRole="CompanySubscribedCategories" />
           <NavigationProperty Name="UserCategories" Relationship="Self.FK_UserCategories_Categories" FromRole="Categories" ToRole="UserCategories" />
           <NavigationProperty Name="CompanyProfiles" Relationship="MainDevEnvModel.FK_CompanyProfile_Categories" FromRole="Category" ToRole="CompanyProfile" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="CompanyProfile">
           <Key>
@@ -375,6 +427,7 @@
           <NavigationProperty Name="UserType" Relationship="MainDevEnvModel.FK_User_UserType" FromRole="User" ToRole="UserType" />
           <NavigationProperty Name="CompanyUserDetails" Relationship="MainDevEnvModel.FK_CompanyUserDetail_User" FromRole="User" ToRole="CompanyUserDetail" />
           <NavigationProperty Name="UserAreaCodes" Relationship="MainDevEnvModel.FK_UserAreaCode_User" FromRole="User" ToRole="UserAreaCode" />
+          <NavigationProperty Name="UserGeometries" Relationship="MainDevEnvModel.FK_UserGeometry_User" FromRole="User" ToRole="UserGeometry" />
         </EntityType>
         <EntityType Name="UserAreaCode">
           <Key>
@@ -382,7 +435,7 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="UserId" Type="Int32" Nullable="false" />
-          <Property Name="AreaCode" Type="Int32" />
+          <Property Name="AreaCode" Type="Int32" Nullable="false" />
           <Property Name="AreaAdress" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="User" Relationship="MainDevEnvModel.FK_UserAreaCode_User" FromRole="UserAreaCode" ToRole="User" />
         </EntityType>
@@ -539,6 +592,16 @@
             <End Role="User" EntitySet="Users" />
             <End Role="UserAreaCode" EntitySet="UserAreaCodes" />
           </AssociationSet>
+          <EntitySet Name="UserGeometries" EntityType="MainDevEnvModel.UserGeometry" />
+          <AssociationSet Name="FK_UserGeometry_User" Association="MainDevEnvModel.FK_UserGeometry_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="UserGeometry" EntitySet="UserGeometries" />
+          </AssociationSet>
+          <EntitySet Name="BranchGeometries" EntityType="MainDevEnvModel.BranchGeometry" />
+          <AssociationSet Name="FK_BranchGeometry_CompanyBranchDetail" Association="MainDevEnvModel.FK_BranchGeometry_CompanyBranchDetail">
+            <End Role="CompanyBranchDetail" EntitySet="CompanyBranchDetails" />
+            <End Role="BranchGeometry" EntitySet="BranchGeometries" />
+          </AssociationSet>
         </EntityContainer>
         <Association Name="FK_User_UserType">
           <End Type="MainDevEnvModel.UserType" Role="UserType" Multiplicity="1" />
@@ -574,9 +637,10 @@
           <Property Name="FirstLineOfAddress" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="Phone" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="AreaCode" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="AreaCode" Type="Int32" Nullable="false" />
           <NavigationProperty Name="CompanyProfile" Relationship="MainDevEnvModel.FK_CompanyBranchDetail_CompanyProfile" FromRole="CompanyBranchDetail" ToRole="CompanyProfile" />
           <NavigationProperty Name="CompanyUserDetails" Relationship="MainDevEnvModel.FK_CompanyUserDetail_CompanyBranchDetail" FromRole="CompanyBranchDetail" ToRole="CompanyUserDetail" />
+          <NavigationProperty Name="BranchGeometries" Relationship="MainDevEnvModel.FK_BranchGeometry_CompanyBranchDetail" FromRole="CompanyBranchDetail" ToRole="BranchGeometry" />
         </EntityType>
         <EntityType Name="CompanyUserDetail">
           <Key>
@@ -651,6 +715,48 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="UserGeometry">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" />
+          <Property Name="Geometry" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="User" Relationship="MainDevEnvModel.FK_UserGeometry_User" FromRole="UserGeometry" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_UserGeometry_User">
+          <End Type="MainDevEnvModel.User" Role="User" Multiplicity="0..1" />
+          <End Type="MainDevEnvModel.UserGeometry" Role="UserGeometry" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="UserGeometry">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="BranchGeometry">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CompanyBranchDetailId" Type="Int32" />
+          <Property Name="Geometry" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="CompanyBranchDetail" Relationship="MainDevEnvModel.FK_BranchGeometry_CompanyBranchDetail" FromRole="BranchGeometry" ToRole="CompanyBranchDetail" />
+        </EntityType>
+        <Association Name="FK_BranchGeometry_CompanyBranchDetail">
+          <End Type="MainDevEnvModel.CompanyBranchDetail" Role="CompanyBranchDetail" Multiplicity="0..1" />
+          <End Type="MainDevEnvModel.BranchGeometry" Role="BranchGeometry" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CompanyBranchDetail">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BranchGeometry">
+              <PropertyRef Name="CompanyBranchDetailId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -660,6 +766,7 @@
           <EntitySetMapping Name="Categories">
             <EntityTypeMapping TypeName="MainDevEnvModel.Category">
               <MappingFragment StoreEntitySet="Categories">
+                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
               </MappingFragment>
@@ -766,6 +873,24 @@
                 <ScalarProperty Name="IsBranchWildCard" ColumnName="IsBranchWildCard" />
                 <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserGeometries">
+            <EntityTypeMapping TypeName="MainDevEnvModel.UserGeometry">
+              <MappingFragment StoreEntitySet="UserGeometry">
+                <ScalarProperty Name="Geometry" ColumnName="Geometry" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BranchGeometries">
+            <EntityTypeMapping TypeName="MainDevEnvModel.BranchGeometry">
+              <MappingFragment StoreEntitySet="BranchGeometry">
+                <ScalarProperty Name="Geometry" ColumnName="Geometry" />
+                <ScalarProperty Name="CompanyBranchDetailId" ColumnName="CompanyBranchDetailId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
